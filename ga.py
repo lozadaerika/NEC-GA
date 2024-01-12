@@ -40,7 +40,8 @@ def create_tsp_graph(tsp_problem):
 def calculate_total_distance(solution, graph):
     total_distance = 0   
     for i in range(len(solution) - 1):
-        total_distance += graph[solution[i]][solution[i + 1]]['weight']
+        if solution[i] in graph  and solution[i + 1] in graph[solution[i]]:
+            total_distance += graph[solution[i]][solution[i + 1]]['weight']
     # Return to the start
     total_distance += graph[solution[-1]][solution[0]]['weight'] 
     return total_distance
