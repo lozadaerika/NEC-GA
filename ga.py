@@ -61,6 +61,19 @@ def independent_gene_mutation(solution, mutation_probability=0.1):
             solution[i] = 1 - solution[i]  # Flip 0 to 1 or 1 to 0
     return solution
 
+def one_point_crossover(parent1, parent2):
+    crossover_point = random.randint(0, len(parent1) - 1)
+    child = parent1[crossover_point:] + [city for city in parent2 if city not in parent1[crossover_point:]]
+    return child
+
+def two_point_crossover(parent1, parent2):
+    start, end = sorted(random.sample(range(len(parent1)), 2))
+    child = parent1[start:end] + [city for city in parent2 if city not in parent1[start:end]] + parent1[end:]
+    return child
+
+def uniform_crossover(parent1, parent2):
+    child = [city1 if random.choice([True, False]) else city2 for city1, city2 in zip(parent1, parent2)]
+    return child
 
 #TSP file
 problem_file = "berlin52.tsp" 
