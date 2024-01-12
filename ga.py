@@ -46,6 +46,22 @@ def calculate_total_distance(solution, graph):
     total_distance += graph[solution[-1]][solution[0]]['weight'] 
     return total_distance
 
+def always_one_mutation(solution):
+    #Select random gene
+    mutation_point = random.randint(0, len(solution) - 1)
+    #Select random value
+    ramdon_value = random.randint(0, len(solution) - 1)
+    #Replace gene with random value
+    solution[mutation_point] = ramdon_value
+    return solution
+
+def independent_gene_mutation(solution, mutation_probability=0.1):
+    for i in range(len(solution)):
+        if random.uniform(0, 1) < mutation_probability:
+            solution[i] = 1 - solution[i]  # Flip 0 to 1 or 1 to 0
+    return solution
+
+
 #TSP file
 problem_file = "berlin52.tsp" 
 tsp_problem = tsplib95.load(problem_file)
