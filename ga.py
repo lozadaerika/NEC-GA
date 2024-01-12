@@ -75,6 +75,21 @@ def uniform_crossover(parent1, parent2):
     child = [city1 if random.choice([True, False]) else city2 for city1, city2 in zip(parent1, parent2)]
     return child
 
+def rank_selection(population, fitness_values):
+    ranked_indices = list(np.argsort(fitness_values))
+    ranks = np.arange(1, len(population) + 1)
+    probabilities = ranks / ranks.sum()
+    selected_parents_indices = np.random.choice(ranked_indices, size=2, replace=False, p=probabilities)
+    return [population[i] for i in selected_parents_indices]
+
+def tournament_selection(population, fitness_values, tournament_size=5):
+    selected_parents = []
+    for _ in range(2):
+        tournament_indices = random.sample(range(len(population)), tournament_size)
+        tournament_fitness = [fitness_values[i] for i in tournament_indices]
+        selected_parents.append(population[tournament_indices[np.argmax(tournament_fitness)]])
+    return selected_parents
+
 #TSP file
 problem_file = "berlin52.tsp" 
 tsp_problem = tsplib95.load(problem_file)
