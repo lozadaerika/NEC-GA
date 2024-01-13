@@ -95,7 +95,7 @@ def tournament_selection(population, fitness_values, tournament_size=5):
         selected_parents.append(population[tournament_indices[np.argmax(tournament_fitness)]])
     return selected_parents
 
-def genetic_algorithm(graph, population_size, generations, selection_func, crossover_func, mutation_func):
+def genetic_algorithm(graph, population_size, generations,mutation_probability, selection_func, crossover_func, mutation_func):
 
     distances_history = []
     best_distance=0
@@ -112,7 +112,9 @@ def genetic_algorithm(graph, population_size, generations, selection_func, cross
         children = [crossover_func(selected_parents[0], selected_parents[1]) for _ in range(population_size // 2)]
         # Mutation
         for i in range(len(children)):
-            children[i] = mutation_func(children[i],graph)
+            if random.uniform(0, 1) < mutation_probability:
+                children[i] = mutation_func(children[i],mutation_probability,graph)
+
         temp_distance = min(fitness_values)
         temp_distance_index= fitness_values.index(temp_distance)
         temp_solution = population[temp_distance_index]
@@ -135,6 +137,7 @@ if __name__ == "__main__":
 
     population_sizes=[10,20,30,50]
     generation_sizes=[10,20,30]
+    probabilities=[0.1,0.3,0.5,0.8]
 
     best_distance=0
     best_solution=[]
@@ -142,25 +145,28 @@ if __name__ == "__main__":
 
     best_population=0
     best_generation=0
+    best_probability=0
 
     for population_size in population_sizes:
         for generations in generation_sizes:
-            print('Population size',population_size,'Generations',generations)
-            # GA with different options
-            temp_best_solution, temp_best_distance, distances_history = genetic_algorithm(tsp_graph, population_size, generations,
-                                                            selection_func=rank_selection,
-                                                            crossover_func=two_point_crossover,
-                                                            mutation_func=always_one_mutation)
-            
-            if(best_distance==0  or temp_best_distance< best_distance):
-                best_distance=temp_best_distance
-                best_solution= temp_best_solution     
-                best_population=population_size
-                best_generation=generations           
+            for probability in probabilities:
+                print('Population size',population_size,'Generations',generations,'Probability',probability)
+                # GA with different options
+                temp_best_solution, temp_best_distance, distances_history = genetic_algorithm(tsp_graph, population_size, generations,probability,
+                                                                selection_func=rank_selection,
+                                                                crossover_func=one_point_crossover,
+                                                                mutation_func=independent_gene_mutation)
+                
+                if(best_distance==0  or temp_best_distance< best_distance):
+                    best_distance=temp_best_distance
+                    best_solution= temp_best_solution     
+                    best_population=population_size
+                    best_generation=generations
+                    best_probability=probability             
 
-    print(problem_file,'Selection:rank_selection','Crossover:two_point_crossover')
-    print(problem_file,'Mutation:always_one_mutation')
-    print(problem_file,"Best Parameters: ", 'Population size',best_population,'Generations',best_generation)
+    print(problem_file,'Selection:rank_selection','Crossover:one_point_crossover')
+    print(problem_file,'Mutation:independent_gene_mutation')
+    print(problem_file,"Best Parameters: ", 'Population size',best_population,'Generations',best_generation,'Probability',best_probability)
     print(problem_file,"Best Solution:", best_solution)
     print(problem_file,"Best Distance:", best_distance)
 
