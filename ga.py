@@ -5,18 +5,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def plot_tsp_graph(graph, solution):
+    #Plot graph
     pos = nx.get_node_attributes(graph, 'coords')
-    edges = list(graph.edges())
-
     nx.draw(graph, pos, with_labels=True, edge_color='gray', node_size=50, font_size=6)
 
-    #Highlight solution
-    solution_edges = [(solution[i], solution[i + 1]) for i in range(len(solution) - 1)]
-    solution_edges.append((solution[-1], solution[0]))
-    nx.draw_networkx_edges(graph, pos, edgelist=solution_edges, edge_color='red', width=2)
-
-    plt.title("TSP Graph with Best Solution")
+    #Plot solution
+    edges = [(solution[i], solution[i + 1]) for i in range(len(solution) - 1)] + [(solution[-1], solution[0])]
+    nx.draw_networkx_edges(graph, pos, edgelist=edges, edge_color='red', width=2)
+    plt.title("TSP Graph with Solution")
     plt.show()
+
+def create_chromosome_solution(graph):
+    nodes = list(graph.nodes())
+    random.shuffle(nodes)
+    return nodes
 
 def calculate_euclidean_distance(coord1, coord2):
     return ((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)**0.5
@@ -37,13 +39,12 @@ def create_tsp_graph(tsp_problem):
 
     return graph
 
-def calculate_total_distance(solution, graph):
+def calculate_fitness(solution, graph):
     total_distance = 0   
     for i in range(len(solution) - 1):
         if solution[i] in graph  and solution[i + 1] in graph[solution[i]]:
             total_distance += graph[solution[i]][solution[i + 1]]['weight']
     # Return to the start
-    total_distance += graph[solution[-1]][solution[0]]['weight'] 
     return total_distance
 
 def always_one_mutation(solution):
@@ -90,14 +91,79 @@ def tournament_selection(population, fitness_values, tournament_size=5):
         selected_parents.append(population[tournament_indices[np.argmax(tournament_fitness)]])
     return selected_parents
 
-#TSP file
-problem_file = "berlin52.tsp" 
-tsp_problem = tsplib95.load(problem_file)
+def roulette_wheel_selection(population, fitness_values):
+    total_fitness = sum(fitness_values)
+    probabilities = [fit / total_fitness for fit in fitness_values]
+    return random.choices(population, weights=probabilities, k=2)
 
-tsp_graph = create_tsp_graph(tsp_problem)
+def plot_evolution(best_distances):
+    plt.figure(figsize=(10, 6))
+    plt.plot(best_distances, marker='o')
+    plt.title('Evolution')
+    plt.xlabel('Generation')
+    plt.ylabel('Distance')
+    plt.grid(True)
+    plt.show()
 
-plot_tsp_graph(tsp_graph,)
+def genetic_algorithm(graph, population_size, generations,probability, selection_func, crossover_func, mutation_func):
 
+    distances_history = []
+    best_distance=0
+    best_solution=[]
+    
+    population = [create_chromosome_solution(graph) for _ in range(population_size)]
 
+    for generation in range(generations):
+        # Evaluate fitness
+        fitness_values = [calculate_fitness(solution, graph) for solution in population]
 
+        # Crossover
+        selected_parents = selection_func(population, fitness_values)
 
+        # Selection
+        children = [crossover_func(selected_parents[0], selected_parents[1]) for _ in range(population_size // 2)]
+        
+        # Mutation
+        for i in range(len(children)):
+            if random.uniform(0, 1) < probability:  # Mutation probability
+                children[i] = mutation_func(children[i])
+
+        temp_distance = min(fitness_values)
+        temp_distance_index= fitness_values.index(temp_distance)
+        temp_solution = population[temp_distance_index]
+
+        # Replace old population
+        population = selected_parents + children  
+
+        if(best_distance==0  or temp_distance< best_distance):
+            best_distance=temp_distance
+            best_solution = temp_solution
+
+        distances_history.append(temp_distance)
+
+    # Best solution
+    return best_solution, best_distance,distances_history
+
+if __name__ == "__main__":
+    #TSP file
+    problem_file = "datasets/ulysses16.tsp"
+    tsp_problem = tsplib95.load(problem_file)
+
+    tsp_graph = create_tsp_graph(tsp_problem)
+
+    population_size = 50
+    generations = 100
+    probability=0.1
+
+    # GA with different options
+    best_solution, best_distance, distances_history = genetic_algorithm(tsp_graph, population_size, generations,probability,
+                                                     selection_func=tournament_selection,
+                                                     crossover_func=one_point_crossover,
+                                                     mutation_func=always_one_mutation)
+
+    print("Best Solution:", best_solution)
+    print("Best Distance:", best_distance)
+
+    plot_tsp_graph(tsp_graph,best_solution)
+
+    plot_evolution(distances_history)
