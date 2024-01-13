@@ -4,25 +4,6 @@ import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_tsp_graph(graph, solution):
-    #Plot graph
-    pos = nx.get_node_attributes(graph, 'coords')
-    nx.draw(graph, pos, with_labels=True, edge_color='gray', node_size=50, font_size=6)
-
-    #Plot solution
-    edges = [(solution[i], solution[i + 1]) for i in range(len(solution) - 1)] + [(solution[-1], solution[0])]
-    nx.draw_networkx_edges(graph, pos, edgelist=edges, edge_color='red', width=2)
-    plt.title("TSP Graph with Solution")
-    plt.show()
-
-def create_chromosome_solution(graph):
-    nodes = list(graph.nodes())
-    random.shuffle(nodes)
-    return nodes
-
-def calculate_euclidean_distance(coord1, coord2):
-    return ((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)**0.5
-
 def create_tsp_graph(tsp_problem):
     graph = nx.Graph()
 
@@ -38,6 +19,34 @@ def create_tsp_graph(tsp_problem):
             graph.add_edge(edge[0], edge[1], weight=weight)
 
     return graph
+
+def plot_tsp_graph(graph, solution):
+    #Plot graph
+    pos = nx.get_node_attributes(graph, 'coords')
+    nx.draw(graph, pos, with_labels=True, edge_color='gray', node_size=50, font_size=6)
+
+    #Plot solution
+    edges = [(solution[i], solution[i + 1]) for i in range(len(solution) - 1)] + [(solution[-1], solution[0])]
+    nx.draw_networkx_edges(graph, pos, edgelist=edges, edge_color='red', width=2)
+    plt.title("TSP Graph with Solution")
+    plt.show()
+
+def plot_evolution(best_distances):
+    plt.figure(figsize=(10, 6))
+    plt.plot(best_distances, marker='o')
+    plt.title('Evolution')
+    plt.xlabel('Generation')
+    plt.ylabel('Distance')
+    plt.grid(True)
+    plt.show()
+
+def create_chromosome_solution(graph):
+    chromosome = list(graph.nodes())
+    random.shuffle(chromosome)
+    return chromosome
+
+def calculate_euclidean_distance(coord1, coord2):
+    return ((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)**0.5
 
 def calculate_fitness(solution, graph):
     total_distance = 0   
