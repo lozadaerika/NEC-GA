@@ -149,7 +149,7 @@ if __name__ == "__main__":
             # GA with different options
             temp_best_solution, temp_best_distance, distances_history = genetic_algorithm(tsp_graph, population_size, generations,
                                                             selection_func=rank_selection,
-                                                            crossover_func=two_point_crossover,
+                                                            crossover_func=one_point_crossover,
                                                             mutation_func=always_one_mutation)
             
             if(best_distance==0  or temp_best_distance< best_distance):
@@ -158,7 +158,7 @@ if __name__ == "__main__":
                 best_population=population_size
                 best_generation=generations           
 
-    print(problem_file,'Selection:rank_selection','Crossover:two_point_crossover')
+    print(problem_file,'Selection:rank_selection','Crossover:one_point_crossover')
     print(problem_file,'Mutation:always_one_mutation')
     print(problem_file,"Best Parameters: ", 'Population size',best_population,'Generations',best_generation)
     print(problem_file,"Best Solution:", best_solution)
