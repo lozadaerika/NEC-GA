@@ -1,0 +1,5 @@
+st70.tsp Selection: rank_selection Crossover: ordered_crossover
+st70.tsp Mutation: inversion_mutation Mutation rate: 0.6
+st70.tsp Best Parameters:  Population size 500 Generations 100
+st70.tsp Best Solution: [31, 69, 23, 62, 33, 11, 32, 14, 28, 27, 61, 40, 39, 56, 67, 54, 65, 60, 45, 8, 20, 25, 22, 15, 57, 7, 3, 16, 66, 10, 48, 37, 1, 18, 41, 53, 24, 55, 17, 9, 12, 21, 34, 38, 26, 49, 30, 46, 68, 43, 44, 19, 4, 35, 13, 70, 52, 29, 63, 59, 36, 47, 51, 42, 6, 5, 58, 64, 50, 2]
+st70.tsp Best Distance: 2219.5220755301857

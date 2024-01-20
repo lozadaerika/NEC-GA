@@ -1,0 +1,5 @@
+att48.tsp Selection: rank_selection Crossover: partial_mapped_crossover
+att48.tsp Mutation: swap_mutation Mutation rate: 0.6
+att48.tsp Best Parameters:  Population size 200 Generations 100
+att48.tsp Best Solution: [22, 41, 14, 29, 11, 15, 34, 3, 23, 40, 1, 16, 9, 8, 33, 38, 19, 6, 7, 28, 44, 37, 36, 30, 17, 43, 27, 18, 31, 32, 24, 10, 4, 26, 45, 35, 42, 2, 5, 39, 21, 13, 47, 48, 25, 20, 46, 12]
+att48.tsp Best Distance: 60821.115105888006

@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
     population_sizes=[50,100,200,300,500]
     generation_sizes=[10,30,50,100]
-    mutation_rates=[0.4,0.6,0.8]
+    mutation_rates=[0.6,0.8]
 
     selection_functions=[rank_selection,tournament_selection]
     mutation_functions=[swap_mutation,inversion_mutation]

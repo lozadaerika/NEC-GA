@@ -1,0 +1,5 @@
+berlin52.tsp Selection: tournament_selection Crossover: partial_mapped_crossover
+berlin52.tsp Mutation: inversion_mutation Mutation rate: 0.6
+berlin52.tsp Best Parameters:  Population size 50 Generations 100
+berlin52.tsp Best Solution: [14, 47, 29, 24, 38, 49, 40, 36, 35, 44, 31, 3, 19, 8, 10, 9, 45, 32, 34, 39, 5, 33, 12, 28, 25, 37, 22, 18, 41, 17, 7, 2, 42, 21, 23, 30, 50, 20, 1, 16, 46, 48, 15, 43, 4, 6, 51, 11, 52, 13, 26, 27]
+berlin52.tsp Best Distance: 11618.847831036936

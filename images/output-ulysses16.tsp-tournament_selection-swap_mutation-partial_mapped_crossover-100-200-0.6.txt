@@ -1,0 +1,5 @@
+ulysses16.tsp Selection: tournament_selection Crossover: partial_mapped_crossover
+ulysses16.tsp Mutation: swap_mutation Mutation rate: 0.6
+ulysses16.tsp Best Parameters:  Population size 200 Generations 100
+ulysses16.tsp Best Solution: [3, 2, 4, 8, 1, 16, 12, 13, 14, 15, 5, 6, 7, 10, 9, 11]
+ulysses16.tsp Best Distance: 50.48751188821616

@@ -1,0 +1,5 @@
+att48.tsp Selection: tournament_selection Crossover: ordered_crossover
+att48.tsp Mutation: swap_mutation Mutation rate: 0.6
+att48.tsp Best Parameters:  Population size 300 Generations 100
+att48.tsp Best Solution: [45, 35, 4, 26, 10, 24, 42, 2, 29, 41, 16, 22, 8, 1, 40, 11, 23, 34, 3, 13, 25, 14, 48, 5, 39, 32, 21, 47, 20, 12, 33, 15, 46, 44, 36, 43, 17, 27, 37, 19, 6, 30, 28, 7, 18, 31, 38, 9]
+att48.tsp Best Distance: 36370.734208460024
