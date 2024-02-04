@@ -213,14 +213,13 @@ if __name__ == "__main__":
                     filename=problem_file +"-"+ str(selection_fn.__name__) +"-"+  str(mutation_fn.__name__) +"-"+ str(crossover_fn.__name__) + "-"+str(best_generation)+  "-"+str(best_population) +"-"+str(best_mutation)               
                  
                     with open("images/output-"+filename+".txt", 'w') as file:      
-                        sys.stdout = file  # Redirect stdout
+                        sys.stdout = file 
                         print(problem_file,'Selection:',selection_fn.__name__,'Crossover:',crossover_fn.__name__)
                         print(problem_file,'Mutation:',mutation_fn.__name__,'Mutation rate:',best_mutation)
                         print(problem_file,"Best Parameters: ", 'Population size',best_population,'Generations',best_generation)
                         print(problem_file,"Best Solution:", best_solution)
                         print(problem_file,"Best Distance:", best_distance)
 
-                    # Reset stdout to the original value
                     sys.stdout = sys.__stdout__
 
                     print(problem_file,'Selection:',selection_fn.__name__,'Crossover:',crossover_fn.__name__)
